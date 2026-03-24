@@ -32,6 +32,6 @@ class UsuarioModel:
         user = cursor.fetchone()
         conn.close()
         
-        if user and brcrypt.checkpw(password.encode(utf-8), user['password'].encode('utf-8')):
+        if user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
             return user
         return None
