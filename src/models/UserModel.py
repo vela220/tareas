@@ -6,7 +6,7 @@ class UsuarioModel:
         self.db = Database()
         
     def registrar(self, usuario_data):
-        #Encontrar cpntraseña
+        #Encontrar contraseña
         salt = bcrypt.gensalt()
         hashed_pw = bcrypt.hashpw(usuario_data.password.encode('utf-8'), salt)
 
