@@ -5,7 +5,7 @@ from datetime import date, time
 class UsuarioSchema(BaseModel):
     nombre: str = Field(min_length=3, max_length=100)
     email: EmailStr
-    password: str = "media"
+    password: str = Field(min_length=8)
     
 class TareaSchema(BaseModel):
     titulo: str = Field(mon_length=1, max_length=200)

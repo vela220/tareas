@@ -1,8 +1,8 @@
 import bcrypt
-from .database import Database
+from .databaseModel import Database
 
 class UsuarioModel:
-    def _init_(self):
+    def __init__(self):
         self.db = Database()
         
     def registrar(self, usuario_data):
@@ -28,7 +28,7 @@ class UsuarioModel:
     def validar_login(self, email, password):
         conn = self.db.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM usuario WHERE email%s", (email))
+        cursor.execute("SELECT * FROM usuario WHERE email = %s", (email,))
         user = cursor.fetchone()
         conn.close()
         
