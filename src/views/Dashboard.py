@@ -8,11 +8,11 @@ def DashboardView(page, tarea_controller):
         lista_tareas.controls.clear()
         for t in tarea_controller.obtener_lista(user['id_usuario']):
             lista_tareas.controls.append(
-                fr.card(
+                ft.card(
                     content=ft.Container(
                         content=ft.ListTile(
                             title=ft.Text(t['titulo'], weight="bold"),
-                            subtitle=ft.Text(f"{t['descripcion']}/(nPrioridad: {t['prioridad']}"),
+                            subtitle=ft.Text(f"{t['descripcion']}/ Prioridad: {t['prioridad']}"),
                             trailing=ft.Badge(content=ft.Text(t['estado']), bgcolor=ft.Colors.ORANGE_300)
                         ), padding=10
                     )
@@ -28,15 +28,22 @@ def DashboardView(page, tarea_controller):
             txt_titulo.value = ""
             refresh()
             
-    return ft.View("/dashboard", [
+    return ft.View(
+        "/dashboard", 
+        [
         ft.AppBar(
-            title=ft.Text(f"Bienvenido, {user['nombre']}");
-            actions=[ft.IconButton(ft.Icons.EXIT_TO_APP, on_click=lambda_: page..go("/"))]
+            title=ft.Text(f"Bienvenido, {user['nombre']}"),
+            actions=[
+                ft.IconButton(
+                    ft.Icons.EXIT_TO_APP,
+                      on_click=lambda_: page.go("/")
+                    )
+                 ]
         ),
         ft.Column([
-            ft.Row([txt_titulo, ft.floatingActionButton(icon=ft.Icons.ADD, on_Click=add_task)]),
+            ft.Row([txt_titulo, ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=add_task)]),
             ft.Divider(),
-            ft.Text("Mis Tareas Pendientes", size=20, weight-"bold"),
+            ft.Text("Mis Tareas Pendientes", size=20, weight="bold"),
             lista_tareas
         ], expand=True, padding=20)
-    ], on_open=lambda_: refresh())
+    ], on_open=lambda _: refresh())
