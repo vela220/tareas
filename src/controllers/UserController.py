@@ -13,6 +13,6 @@ class AuthController:
             sucess = self.model.registrar(nuevo_usuario)
             return sucess, "Usuario creado correctamente"
         except ValidationError as e:
-            #Retoma el priemr error de validacion encontrado
+            #Retoma el priemer error de validacion encontrado
             return False, e.errors()[0]['msg']
         
