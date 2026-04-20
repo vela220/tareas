@@ -1,13 +1,27 @@
 import flet as ft
 
 def LoginView(page, auth_contoller):
-    email_input = ft.TextField(label="Correo electronico", width=350, border_radius=10)
-    pass_input = ft.TextField(label="Contraseña", password=True, can_reveal_password=True, width=350, border_raidus=10)
+    email_input = ft.TextField(
+        label="Correo electronico", 
+        width=350,
+        border_radius=10,
+        keyboard_type=ft.KeyboardType.EMAIL
+        )
+    
+    pass_input = ft.TextField(
+        label="Contraseña",
+        password=True,
+        can_reveal_password=True,
+        width=350, 
+        border_radius=10
+        )
     
 def login_click(e):
-    user, msg =auth_controller.login(email_input.value, pass_imput.value)
+    if not email_input.value or not pass_input.value:
+        
+    user, msg =auth_controller.login(email_imput.value, pass_imput.value)
     if user:
-        page.session.set("user", user)#guardamos la sesion
+        page.session.set("user", user) #guardamos la sesion
         page.go("/dashboard")
     else:
         page.snack_bar = ft.Snackbar(ft.Text(msg))
@@ -19,7 +33,7 @@ def login_click(e):
         ft.Column([
             ft.Icon(ft.Icons.LOCK_PERSON, size=50, color=ft.Colors.BLUE),
             ft.Text("Acceso al Sistema", size=24, weight="bold"),
-            email_input,
+            email_imput,
             pass_imput,
             ft.ElevatedButton("Entrar", on_click=login_click, width=350),
             ft.TextButton("Crear una cuenta nueva", on_click=lambda _: page.go("/registro"))

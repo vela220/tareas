@@ -5,36 +5,44 @@ from views.LoginView import LoginView
 from views.Dashboard import DashboardView
 
 def start(page: ft.page):
+    page.title = "Sistema SIGE"
+    page.windows_width = 450
+    page.window_height = 700
+    
     auth_ctrl = AuthController()
     task_ctrl = TareaController()
     
     def route_change(e):
         page.views.clear()
         
-        # Caso 1: Login
         if page.route =="/":
-            page.add(ft.Text("Caso1"))
             page.views.append(LoginView(page, auth_ctrl))
             
-        # Caso 2: Dashboard
-        if page.route == "/dashboard":
+        elif page.route == "/dashboard":
             page.views.append(DashboardView(page, task_ctrl))
-            
-        # Caso de seguridad: si algp falla, mostrar texto de error
-        if not page.views:
-            page.views.append(
-                ft.View("/", [ft.Text("Error:Ruta no encontrada o vista vacia")])
-            )
             
         page.update()
         
+    def view_pop(e):
+        if len(page.views) > 1:
+            page.views.pop()
+            top_view = page.views[-1]
+            page.go(top_view.route)
+        
+        
     page.on_route_change = route_change
-    # Forzamos la investigacion inicial
-    page.go("/")
+    page.on_view_pop = view_pop
+    
+    print("Iniciando navegacion...")
+    if page.route == "/":
+        route_change(None)
+        
+    else: 
+        page.go("/")
+    
     
 def main():
-    # Ejecucion de la app
-    ft.app(target-start)
+    ft.app(target=start)
     
 if __name__ == "__main__":
     main()
