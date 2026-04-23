@@ -20,6 +20,12 @@ app = "main:main"
 [tool.uv]
 package = true
 
+[tool.uv.workspace]
+members = [
+    "tarea",
+    "tareas",
+]
+
 # Esta seccion es crucial para que Python vea el contenido de src como el nivel raiz
 [tool.setuptools.package-dir]
 "" = "src"

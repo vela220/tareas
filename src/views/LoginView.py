@@ -1,70 +1,52 @@
 import flet as ft
+USUARIO_VALIDO="admin"
+CONTRASEñA_VALIDA = "123456"
 
-def LoginView(page, auth_contoller):
-    email_input = ft.TextField(
-        label="Correo electronico", 
-        width=350,
-        border_radius=10,
-        keyboard_type=ft.KeyboardType.EMAIL
-        )
+def LoginView(page: ft.Page, AuthController):
+    email_input = ft.TextField(label="Correo Electronico", width = 350, border_radius=10)
+    pass_input = ft.TextField(label="Constraseña", password=True, can_reveal_password=True, width=350, border_radius=10)
     
-    pass_input = ft.TextField(
-        label="Contraseña",
-        password=True,
-        can_reveal_password=True,
-        width=350, 
-        border_radius=10
-        )
+    def login_click(e):
+        if not email_input.value or not pass_input.value:
+            page.snack_bar = ft.Snack_bar = ft.SnackBar(ft.Text("Por favor, llene todos los campos"))
+            page.snack_bar.open = True
+            page.update()
+            return
+        
+        usuario = email_input.value
+        contrasena = pass_input.value
+        
+        if usuario == USUARIO_VALIDO and contrasena == CONTRASEñA_VALIDA:
+            page.user_data = {
+                "nombre": "Admin",
+                "id_usuario": 1
+            }
+            page.show_dialog(ft.SnackBar(ft.Text("Inicio de sesion exitoso.")))
+            page.go("/dashboard")
+            return
+                    
+    login_button = ft.ElevatedButton("Entrar", on_click=login_click, width=350, bgcolor="blue", color = "white")
+    registrar_button = ft.ElevatedButton("Crear una nueva cuenta", on_click=lambda _: page.go("/registro"), width=350, bgcolor="green", color = "white")
     
-def login_click(e):
-    if not email_input.value or not pass_input.value:
-        page.snack_bar = ft.SnackBar(ft.Text("por favor, llene todos los campos"))
-        page.snack_bar.open = True
-        page.update()
-        return
+    pass_input.on_submit = login_click
         
-    user, msg =auth_controller.login(email_input.value, pass_input.value)
     
-    if user:
-        page.session.set("user", user) 
-        page.go("/dashboard")
-    else:
-        page.snack_bar = ft.Snackbar(ft.Text(msg))
-        page.snack_bar.open = True
-        page.update()
-        
-login_button = ft.ElevetedButton(
-    "Entrar"
-    on_click=login_click,
-    width=350,
-    bgcolor="blue",
-    color="white"
-)
-
-pass_input.on_submit = login_click
-        
     return ft.View(
-        route"/", 
+        route = "/",
         vertical_alignment=ft.MainAxisAlignment.CENTER,
-        horizontal_alignment=ft.CrossAlignment.CENTER,
-        appbar=ft.Appbar(
-            title=ft.Text("SIGE - login"),
-            bgcolor="bluegrey900",
-            color="white"
-        ),
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        appbar=ft.AppBar(title=ft.Text("LOGIN"), bgcolor="green", color= "white"),
         controls=[
             ft.Column(
                 [
-                    ft.text("Acceso al sistema", size=24, weight="bold"),
+                    ft.Text("Acceso al sistema", size=24, weight="bold"),
                     email_input,
                     pass_input,
                     login_button,
-                    ft.TextButon(
-                        "Crear una cuenta nueva",
-                        on_click=lambda _: page.go("/registro")
-                    )
+                    registrar_button,
+                    ft.TextButton("Se te olvido a contraseña?", on_click=lambda _: page.go("/registro"))
                 ],
-                horizontal_Alignment=ft.CrossAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 tight=True,
                 spacing=20
             )
