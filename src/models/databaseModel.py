@@ -13,3 +13,6 @@ class Database:
             password=os.getenv("DB_PASSWORD"),
             database=os.getenv("DB_NAME")
         )
+        
+        if connection.is_connected:
+            return
