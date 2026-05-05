@@ -39,7 +39,7 @@ class UsuarioModel:
     def iniciar_sesion(self, usuario_data):
         conn = None
         cursor = None
-        try:
+    try:
             # establecer conexion
             conn = self.db.get_connection()
             cursor =conn.cursor(dictionary=True) #dictionary=True facilita leer por nombre de clumna

@@ -16,3 +16,6 @@ class TareaSchema(BaseModel):
     descripcion: Optional[str] = None
     prioridad: str = "media"
     clasificacion: str = "personal"
+    
+    class UsuarioFormSchema(BaseModel):
+        #Campos 
